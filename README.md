@@ -9,13 +9,22 @@ Current tools:
  - Cucumber
  - JUnit
  
- 
-To execute all tests run:
-
-`mvn clean test`
 
 
-To execute tests with Cucumber tags run:
+To run tests in a browser
 
-`mvn clean test -Dcucumber.options="--tags @yourDesiredTag"`
+`mvn -Dtest=RunnerClassOfYourDesiredBrowser# test`
 
+Current browsers: 
+ - Chrome `mvn -Dtest=ChromeRunner# test`
+ - ChromeIncognito `mvn -Dtest=ChromeIncognitoRunner# test`
+
+
+To run tests with Cucumber tags run:
+
+`mvn -Dtest=RunnerClassOfYourDesiredBrowser# test -Dcucumber.options="--tags @yourDesiredTag"`
+
+
+To run tests in diffrent browsers run: 
+
+`mvn -Dtest=RunnerClassOfYourFirstBrowser# test; mvn -Dtest=RunnerClassOfYourSecondBrowser# test`
