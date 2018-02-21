@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+	<Properties>
+
+		<Property name="log-path">target</Property>
+		<Property name="patternLayout">[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} - %msg%n</Property>
+
+	</Properties>
+
+	<Appenders>
+
+		<Console name="MyConsole" target="SYSTEM_OUT">
+			<PatternLayout pattern="${patternLayout}" />
+		</Console>
+
+		<RollingFile name="MyRollingFile"
+			fileName="${log-path}/functional-test-framework-log.log"
+			filePattern="${log-path}/$${date:yyyy-MM}/functional-test-framework-log-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>${patternLayout}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+			</Policies>
+		</RollingFile>
+
+	</Appenders>
+	<Loggers>
+
+		<Root level="all">
+			<AppenderRef ref="MyConsole" level="all" />
+			<AppenderRef ref="MyRollingFile" level="error" />
+		</Root>
+
+	</Loggers>
+</Configuration>
