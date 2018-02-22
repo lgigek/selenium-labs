@@ -1,30 +1,22 @@
 # Selenium labs
 
-This repository is for study and explore Selenium with other tools.
-
-
-Current tools:
- - Selenium
- - Maven
- - Cucumber
- - JUnit
- 
-
-
 To run tests in a browser
 
-`mvn -Dtest=RunnerClassOfYourDesiredBrowser# test`
+`mvn test -Dtest=RunnerClassOfYourBrowser`
 
 Current browsers: 
- - Chrome `mvn -Dtest=ChromeRunner# test`
- - ChromeIncognito `mvn -Dtest=ChromeIncognitoRunner# test`
+ - Chrome `mvn test -Dtest=ChromeRunner`
+ - ChromeIncognito `mvn test -Dtest=ChromeIncognitoRunner`
 
 
 To run tests with Cucumber tags run:
 
-`mvn -Dtest=RunnerClassOfYourDesiredBrowser# test -Dcucumber.options="--tags @yourDesiredTag"`
+`mvn test -Dtest=RunnerClassOfYourBrowser -Dcucumber.options="--tags @yourTag"`
 
 
 To run tests in diffrent browsers run: 
 
-`mvn -Dtest=RunnerClassOfYourFirstBrowser# test; mvn -Dtest=RunnerClassOfYourSecondBrowser# test`
+`mvn test -Dtest=RunnerClassOfYourFirstBrowser; mvn test -Dtest=RunnerClassOfYourSecondBrowser`
+
+Evidences are taken after a scenario fails or calling `EvidenceHandler.getInstance().takeEvidence("EvidenceName");` during test script.
+Evidences are generated at /target/evidences/[browser-name]/[scenario-tags]/[executiontime]
