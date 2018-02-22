@@ -1,3 +1,4 @@
+@access
 Feature: Access web pages
   Access web pages and verify if the page is displayed correctly
 
