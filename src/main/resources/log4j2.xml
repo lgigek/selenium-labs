@@ -25,7 +25,7 @@
 			</Policies>
 		</RollingFile>
 		
-		<RollingFile name="ErroLog"
+		<RollingFile name="ErrorLog"
 			fileName="${log-path}/functional-test-framework-error-log.log"
 			filePattern="${log-path}/$${date:yyyy-MM}/functional-test-framework-log-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
@@ -43,7 +43,7 @@
 		<Root level="all">
 			<AppenderRef ref="MyConsole" level="info" />
 			<AppenderRef ref="FullLog" level="all" />
-			<AppenderRef ref="ErroLog" level="error" />
+			<AppenderRef ref="ErrorLog" level="error" />
 		</Root>
 
 	</Loggers>
