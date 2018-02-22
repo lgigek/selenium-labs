@@ -4,14 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-
-import cucumber.api.Scenario;
 
 public class EvidenceHandler {
 
@@ -31,12 +30,12 @@ public class EvidenceHandler {
 		return instance;
 	}
 
-	public void setFolderPath(final Scenario scenario) {
+	public void setFolderPath(Collection<String> scenarioTags) {
 		logger.trace("Setting evidence folder path");
 		stepNumber = 1;
 
 		folderPath = System.getProperty("user.dir") + "/target/evidences/" + browser.getBrowserName() + "/";
-		for (String tag : scenario.getSourceTagNames()) {
+		for (String tag : scenarioTags) {
 			folderPath += tag.replace("@", "") + "-";
 		}
 		folderPath = folderPath.substring(0, folderPath.length() - 1) + "/"

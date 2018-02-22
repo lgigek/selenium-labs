@@ -12,7 +12,7 @@ public class Hooks {
 	@Before
 	public void setUp(final Scenario scenario) {
 		evidenceHandler = EvidenceHandler.getInstance();
-		evidenceHandler.setFolderPath(scenario);
+		evidenceHandler.setFolderPath(scenario.getSourceTagNames());
 	}
 
 	@After
