@@ -13,8 +13,9 @@ public class Browser {
 
 	private WebDriver driver;
 	private static Browser instance;
+	private String browserName; 
 	private JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-
+	
 	private static final Logger logger = LogManager.getLogger(Browser.class);
 	
 	public static Browser createInstance(String browserName) {
@@ -26,6 +27,7 @@ public class Browser {
 	}
 
 	private Browser(String browserName) {
+		this.browserName = browserName; 
 		logger.info("Starting browser {}", browserName);
 		System.setProperty("webdriver.chrome.driver",
 				System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver");
@@ -43,6 +45,10 @@ public class Browser {
 
 	public WebDriver getDriver() {
 		return driver;
+	}
+	
+	public String getBrowserName() {
+		return browserName;
 	}
 
 	public void navigate(String url) {
