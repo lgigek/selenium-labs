@@ -13,8 +13,20 @@
 			<PatternLayout pattern="${patternLayout}" />
 		</Console>
 
-		<RollingFile name="MyRollingFile"
+		<RollingFile name="FullLog"
 			fileName="${log-path}/functional-test-framework-log.log"
+			filePattern="${log-path}/$${date:yyyy-MM}/functional-test-framework-log-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>${patternLayout}</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="250 MB" />
+			</Policies>
+		</RollingFile>
+		
+		<RollingFile name="ErroLog"
+			fileName="${log-path}/functional-test-framework-error-log.log"
 			filePattern="${log-path}/$${date:yyyy-MM}/functional-test-framework-log-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${patternLayout}</Pattern>
@@ -29,8 +41,9 @@
 	<Loggers>
 
 		<Root level="all">
-			<AppenderRef ref="MyConsole" level="all" />
-			<AppenderRef ref="MyRollingFile" level="error" />
+			<AppenderRef ref="MyConsole" level="info" />
+			<AppenderRef ref="FullLog" level="all" />
+			<AppenderRef ref="ErroLog" level="error" />
 		</Root>
 
 	</Loggers>
