@@ -2,6 +2,9 @@ package br.com.lgigek.core;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import org.apache.commons.lang3.SystemUtils;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,11 +16,11 @@ public class Browser {
 
 	private WebDriver driver;
 	private static Browser instance;
-	private String browserName; 
+	private String browserName;
 	private JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-	
+
 	private static final Logger logger = LogManager.getLogger(Browser.class);
-	
+
 	public static Browser createInstance(String browserName) {
 		if (instance != null)
 			instance.closeWindow();
@@ -27,10 +30,16 @@ public class Browser {
 	}
 
 	private Browser(String browserName) {
-		this.browserName = browserName; 
+		this.browserName = browserName;
 		logger.info("Starting browser {}", browserName);
-		System.setProperty("webdriver.chrome.driver",
-				System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver");
+		String chromeDriverPath;
+
+		if (SystemUtils.IS_OS_WINDOWS)
+			chromeDriverPath = System.getProperty("user.dir") + "/src/test/resources/drivers/windows/chromedriver.exe";
+		else
+			chromeDriverPath = System.getProperty("user.dir") + "/src/test/resources/drivers/linux/chromedriver";
+
+		System.setProperty("webdriver.chrome.driver", chromeDriverPath);
 		ChromeOptions chromeOptions = new ChromeOptions();
 		if (browserName.toLowerCase().equals("chrome-incognito")) {
 			chromeOptions.addArguments("-incognito");
@@ -46,7 +55,7 @@ public class Browser {
 	public WebDriver getDriver() {
 		return driver;
 	}
-	
+
 	public String getBrowserName() {
 		return browserName;
 	}
@@ -88,11 +97,11 @@ public class Browser {
 	public String getTabUrl() {
 		return driver.getCurrentUrl();
 	}
-	
+
 	public Cookie getCookieByName(String name) {
 		return driver.manage().getCookieNamed(name);
 	}
-	
+
 	public Boolean verifyIfCookieExists(String name) {
 		try {
 			logger.info("Verifying if cookie named {} exists", name);
@@ -109,7 +118,6 @@ public class Browser {
 		driver.manage().deleteAllCookies();
 	}
 
-
 	public void setLocalstorageItem(String name, String value) {
 		logger.info("Setting item {} with value {} in localstorage", name, value);
 		jsExecutor.executeScript(String.format("window.localStorage.setItem('%s','%s');", name, value));
@@ -119,12 +127,12 @@ public class Browser {
 		logger.info("Clearing localstorage");
 		jsExecutor.executeScript(String.format("window.localStorage.clear();"));
 	}
-	
+
 	public void focusFrame(By by) {
 		logger.info("Focusing frame {}", by.toString());
 		driver.switchTo().frame(driver.findElement(by));
 	}
-	
+
 	public void focusParentFrame() {
 		logger.info("Focusing parent frame");
 		driver.switchTo().parentFrame();
