@@ -46,7 +46,13 @@ public class Element {
 	public String getAttribute(String name) {
 		logger.info("Getting attribute {} of {}", name, elementLocator);
 		if (verifyIfElementIsPresent()) {
-			return driver.findElement(elementLocator).getAttribute(name);
+			String value = driver.findElement(elementLocator).getAttribute(name);
+			if (value == null) {
+				logger.warn("Tried to get attribute {} from element {}, but attribute was not found", name,
+						elementLocator);
+				return "";
+			} else
+				return value;
 		}
 		return null;
 	}
@@ -114,7 +120,7 @@ public class Element {
 			}
 		return false;
 	}
-	
+
 	public void submit() {
 		logger.info("Submitting {}", elementLocator);
 		if (verifyIfElementIsPresent())
@@ -129,7 +135,8 @@ public class Element {
 			return true;
 		} catch (Exception e) {
 			logger.error("Element {} not found", elementLocator);
-			throw new RuntimeException("Element " + elementLocator + " was not present");
+			Scenario.fail("Element " + elementLocator + " was not present");
+			return false;
 		}
 
 	}

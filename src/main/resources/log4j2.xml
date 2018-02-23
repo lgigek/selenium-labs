@@ -14,8 +14,8 @@
 		</Console>
 
 		<RollingFile name="FullLog"
-			fileName="${log-path}/functional-test-framework-log.log"
-			filePattern="${log-path}/$${date:yyyy-MM}/functional-test-framework-log-%d{MM-dd-yyyy}-%i.log.gz">
+			fileName="${log-path}/log/functional-test-framework.log"
+			filePattern="${log-path}/$${date:yyyy-MM}/log/functional-test-framework-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${patternLayout}</Pattern>
 			</PatternLayout>
@@ -26,8 +26,8 @@
 		</RollingFile>
 		
 		<RollingFile name="ErrorLog"
-			fileName="${log-path}/functional-test-framework-error-log.log"
-			filePattern="${log-path}/$${date:yyyy-MM}/functional-test-framework-log-%d{MM-dd-yyyy}-%i.log.gz">
+			fileName="${log-path}/log/functional-test-framework-error.log"
+			filePattern="${log-path}/$${date:yyyy-MM}/log/functional-test-framework-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${patternLayout}</Pattern>
 			</PatternLayout>
