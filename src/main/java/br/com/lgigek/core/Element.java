@@ -75,7 +75,7 @@ public class Element {
 	public Boolean isPresent() {
 		logger.info("Verifying if {} is present", elementLocator);
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, 1);
+			WebDriverWait wait = new WebDriverWait(driver, 10);
 			wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
 			return true;
 		} catch (Exception e) {
@@ -140,7 +140,7 @@ public class Element {
 			return false;
 		}
 	}
-	
+
 	public Boolean waitForElementToBeVisible(int timeout) {
 		if (timeout == 0)
 			timeout = 1;
@@ -154,7 +154,7 @@ public class Element {
 			return false;
 		}
 	}
-	
+
 	private Boolean verifyIfElementIsPresent() {
 
 		try {
@@ -162,8 +162,7 @@ public class Element {
 			wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
 			return true;
 		} catch (Exception e) {
-			logger.error("Element {} not found", elementLocator);
-			Scenario.fail("Element " + elementLocator + " was not present");
+			Scenario.fail("Element " + elementLocator + " was not found");
 			return false;
 		}
 
