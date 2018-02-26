@@ -123,7 +123,7 @@ public class Browser {
 		jsExecutor.executeScript(String.format("window.localStorage.setItem('%s','%s');", name, value));
 	}
 
-	public void clearingLocalstorage() {
+	public void clearLocalstorage() {
 		logger.info("Clearing localstorage");
 		jsExecutor.executeScript(String.format("window.localStorage.clear();"));
 	}

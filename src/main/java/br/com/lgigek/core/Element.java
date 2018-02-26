@@ -127,6 +127,34 @@ public class Element {
 			driver.findElement(elementLocator).submit();
 	}
 
+	public Boolean waitForElementToBePresent(int timeout) {
+		if (timeout == 0)
+			timeout = 1;
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
+			logger.info("Waiting for element {} to be present", elementLocator);
+			return true;
+		} catch (Exception e) {
+			logger.warn("Timeout reached while waiting for element {} to be present", elementLocator);
+			return false;
+		}
+	}
+	
+	public Boolean waitForElementToBeVisible(int timeout) {
+		if (timeout == 0)
+			timeout = 1;
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
+			logger.info("Waiting for element {} to be visible", elementLocator);
+			return true;
+		} catch (Exception e) {
+			logger.warn("Timeout reached while waiting for element {} to be visible", elementLocator);
+			return false;
+		}
+	}
+	
 	private Boolean verifyIfElementIsPresent() {
 
 		try {
