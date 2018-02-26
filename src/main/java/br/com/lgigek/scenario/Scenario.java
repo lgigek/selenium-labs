@@ -1,4 +1,4 @@
-package br.com.lgigek.core;
+package br.com.lgigek.scenario;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
