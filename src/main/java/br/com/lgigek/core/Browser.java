@@ -91,14 +91,17 @@ public class Browser {
 	}
 
 	public String getTabTitle() {
+		logger.info("Getting tab title");
 		return driver.getTitle();
 	}
 
 	public String getTabUrl() {
+		logger.info("Getting tab url");
 		return driver.getCurrentUrl();
 	}
 
 	public Cookie getCookieByName(String name) {
+		logger.info("Getting value of cookie named {}", name);
 		return driver.manage().getCookieNamed(name);
 	}
 
