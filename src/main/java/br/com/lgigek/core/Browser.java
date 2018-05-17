@@ -42,9 +42,12 @@ public class Browser {
 			System.setProperty("webdriver.chrome.driver", driverPath);
 			ChromeOptions chromeOptions = new ChromeOptions();
 
-			browserOptions.stream().forEach(option -> {
-				chromeOptions.addArguments(option);
-			});
+			if(browserOptions != null) {
+				browserOptions.stream().forEach(option -> {
+					chromeOptions.addArguments(option);
+				});
+			}
+		
 
 			driver = new ChromeDriver(chromeOptions);
 		} else {
