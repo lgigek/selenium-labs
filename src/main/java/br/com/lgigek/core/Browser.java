@@ -23,18 +23,18 @@ public class Browser {
 
 	private static final Logger logger = LogManager.getLogger(Browser.class);
 
-	public static Browser createInstance(String browserName, ArrayList<String> browserOptions, String driverPath) {
+	public static Browser createInstance(BrowserType browserType, ArrayList<String> browserOptions, String driverPath) {
 		if (instance != null)
 			instance.closeWindow();
-		instance = new Browser(browserName, browserOptions, driverPath);
+		instance = new Browser(browserType, browserOptions, driverPath);
 
 		return instance;
 	}
 
-	private Browser(String browserName, ArrayList<String> browserOptions, String driverPath) {
-		this.browserName = browserName;
+	private Browser(BrowserType browserType, ArrayList<String> browserOptions, String driverPath) {
+		this.browserName = browserType.toString().toLowerCase();
 		logger.info("Starting browser {}", browserName);
-		if (browserName.toLowerCase().contains("chrome")) {
+		if (browserType.equals(BrowserType.CHROME)) {
 
 			if (driverPath == null)
 				driverPath = getDefaultChromeDriver();

@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import br.com.lgigek.core.Browser;
+import br.com.lgigek.core.BrowserType;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
@@ -23,7 +24,7 @@ public class PagesRunner {
 	public static void setUp() {
 		ArrayList<String> browserOptions = new ArrayList<String>();
 		browserOptions.add("--start-maximized");
-		browser = Browser.createInstance("chrome", browserOptions, null);
+		browser = Browser.createInstance(BrowserType.CHROME, browserOptions, null);
 	}
 
 	@AfterClass
