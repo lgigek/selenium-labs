@@ -13,7 +13,7 @@ import br.com.lgigek.scenario.Scenario;
 public class Element {
 
 	WebDriver driver;
-	By elementLocator;
+	private By elementLocator;
 	private JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
 
 	private static final Logger logger = LogManager.getLogger(Element.class);
@@ -24,6 +24,10 @@ public class Element {
 		driver = browser.getDriver();
 	}
 
+	public By getElementLocator() {
+		return elementLocator;
+	}
+	
 	public void clearValue() {
 		logger.info("Clearing {} value", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -133,9 +137,9 @@ public class Element {
 		if (timeout == 0)
 			timeout = 1;
 		try {
+			logger.info("Waiting for element {} to be present", elementLocator);
 			WebDriverWait wait = new WebDriverWait(driver, timeout);
 			wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
-			logger.info("Waiting for element {} to be present", elementLocator);
 			return true;
 		} catch (Exception e) {
 			logger.warn("Timeout reached while waiting for element {} to be present", elementLocator);
@@ -147,12 +151,26 @@ public class Element {
 		if (timeout == 0)
 			timeout = 1;
 		try {
+			logger.info("Waiting for element {} to be visible", elementLocator);
 			WebDriverWait wait = new WebDriverWait(driver, timeout);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
-			logger.info("Waiting for element {} to be visible", elementLocator);
 			return true;
 		} catch (Exception e) {
 			logger.warn("Timeout reached while waiting for element {} to be visible", elementLocator);
+			return false;
+		}
+	}
+	
+	public Boolean waitForElementToBeNotVisible(int timeout) {
+		if (timeout == 0)
+			timeout = 1;
+		try {
+			logger.info("Waiting for element {} to be not visible", elementLocator);
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(elementLocator));
+			return true;
+		} catch (Exception e) {
+			logger.warn("Timeout reached while waiting for element {} to be not visible", elementLocator);
 			return false;
 		}
 	}

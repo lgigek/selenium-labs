@@ -1,16 +1,18 @@
 package br.com.lgigek.core;
 
+import java.util.ArrayList;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import org.apache.commons.lang3.SystemUtils;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Browser {
 
@@ -21,31 +23,33 @@ public class Browser {
 
 	private static final Logger logger = LogManager.getLogger(Browser.class);
 
-	public static Browser createInstance(String browserName) {
+	public static Browser createInstance(String browserName, ArrayList<String> browserOptions, String driverPath) {
 		if (instance != null)
 			instance.closeWindow();
-		instance = new Browser(browserName);
+		instance = new Browser(browserName, browserOptions, driverPath);
 
 		return instance;
 	}
 
-	private Browser(String browserName) {
+	private Browser(String browserName, ArrayList<String> browserOptions, String driverPath) {
 		this.browserName = browserName;
 		logger.info("Starting browser {}", browserName);
-		String chromeDriverPath;
+		if (browserName.toLowerCase().contains("chrome")) {
 
-		if (SystemUtils.IS_OS_WINDOWS)
-			chromeDriverPath = System.getProperty("user.dir") + "/src/test/resources/drivers/windows/chromedriver.exe";
-		else
-			chromeDriverPath = System.getProperty("user.dir") + "/src/test/resources/drivers/linux/chromedriver";
+			if (driverPath == null)
+				driverPath = getDefaultChromeDriver();
 
-		System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-		ChromeOptions chromeOptions = new ChromeOptions();
-		if (browserName.toLowerCase().equals("chrome-incognito")) {
-			chromeOptions.addArguments("-incognito");
+			System.setProperty("webdriver.chrome.driver", driverPath);
+			ChromeOptions chromeOptions = new ChromeOptions();
+
+			browserOptions.stream().forEach(option -> {
+				chromeOptions.addArguments(option);
+			});
+
+			driver = new ChromeDriver(chromeOptions);
+		} else {
+			throw new NotImplementedException("Implemented only for chromedriver");
 		}
-		driver = new ChromeDriver(chromeOptions);
-		driver.manage().window().maximize();
 	}
 
 	public static Browser getInstance() {
@@ -58,6 +62,10 @@ public class Browser {
 
 	public String getBrowserName() {
 		return browserName;
+	}
+
+	public void maximize() {
+		driver.manage().window().maximize();
 	}
 
 	public void navigate(String url) {
@@ -131,13 +139,30 @@ public class Browser {
 		jsExecutor.executeScript(String.format("window.localStorage.clear();"));
 	}
 
-	public void focusFrame(By by) {
-		logger.info("Focusing frame {}", by.toString());
-		driver.switchTo().frame(driver.findElement(by));
+	public void focusFrame(Element element) {
+		logger.info("Focusing frame {}", element.getElementLocator());
+		driver.switchTo().frame(driver.findElement(element.getElementLocator()));
 	}
 
 	public void focusParentFrame() {
 		logger.info("Focusing parent frame");
 		driver.switchTo().parentFrame();
+	}
+
+	public void waitForPageLoad(int timeout) {
+		logger.info("Waiting for page to load");
+		Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
+		wait.until(driver -> String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
+				.equals("complete"));
+	}
+
+	private String getDefaultChromeDriver() {
+		String chromeDriverPath = null;
+		if (SystemUtils.IS_OS_WINDOWS)
+			chromeDriverPath = System.getProperty("user.dir") + "/src/test/resources/drivers/windows/chromedriver.exe";
+		else
+			chromeDriverPath = System.getProperty("user.dir") + "/src/test/resources/drivers/linux/chromedriver";
+
+		return chromeDriverPath;
 	}
 }
