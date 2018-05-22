@@ -27,7 +27,7 @@ public class Element {
 	public By getElementLocator() {
 		return elementLocator;
 	}
-
+	
 	public void clearValue() {
 		logger.info("Clearing {} value", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -56,7 +56,7 @@ public class Element {
 			if (value == null) {
 				logger.warn("Tried to get attribute {} from element {}, but attribute was not found", name,
 						elementLocator);
-				return null;
+				return "";
 			} else
 				return value;
 		}
@@ -160,7 +160,7 @@ public class Element {
 			return false;
 		}
 	}
-
+	
 	public Boolean waitForElementToBeNotVisible(int timeout) {
 		if (timeout == 0)
 			timeout = 1;
@@ -185,7 +185,7 @@ public class Element {
 			Scenario.fail("Element " + elementLocator + " was not found");
 			return false;
 		}
-		
+
 	}
 
 }
