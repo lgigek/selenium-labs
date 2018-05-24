@@ -14,6 +14,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import br.com.lgigek.scenario.Scenario;
+
 public class Browser {
 
 	private WebDriver driver;
@@ -59,7 +61,7 @@ public class Browser {
 		return instance;
 	}
 
-	public WebDriver getDriver() {
+	WebDriver getDriver() {
 		return driver;
 	}
 
@@ -113,13 +115,16 @@ public class Browser {
 
 	public Cookie getCookieByName(String name) {
 		logger.info("Getting value of cookie named {}", name);
-		return driver.manage().getCookieNamed(name);
+		Cookie cookie = driver.manage().getCookieNamed(name);
+		if (cookie == null)
+			Scenario.fail("Failed to get cookie with name "+ name);
+		return cookie;
 	}
 
 	public Boolean verifyIfCookieExists(String name) {
 		try {
 			logger.info("Verifying if cookie named {} exists", name);
-			driver.manage().getCookieNamed(name).getValue().toString();
+			driver.manage().getCookieNamed(name).getValue();
 			return true;
 		} catch (Exception e) {
 			logger.warn("Verification failed if cookie named {} exists", name);
@@ -154,7 +159,7 @@ public class Browser {
 
 	public void waitForPageLoad(int timeout) {
 		logger.info("Waiting for page to load");
-		Wait<WebDriver> wait = new WebDriverWait(driver, timeout);
+		WebDriverWait wait = new WebDriverWait(driver, timeout);
 		wait.until(driver -> String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
 				.equals("complete"));
 	}
