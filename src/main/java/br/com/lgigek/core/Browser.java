@@ -44,12 +44,11 @@ public class Browser {
 			System.setProperty("webdriver.chrome.driver", driverPath);
 			ChromeOptions chromeOptions = new ChromeOptions();
 
-			if(browserOptions != null) {
+			if (browserOptions != null) {
 				browserOptions.stream().forEach(option -> {
 					chromeOptions.addArguments(option);
 				});
 			}
-		
 
 			driver = new ChromeDriver(chromeOptions);
 		} else {
@@ -117,7 +116,7 @@ public class Browser {
 		logger.info("Getting value of cookie named {}", name);
 		Cookie cookie = driver.manage().getCookieNamed(name);
 		if (cookie == null)
-			Scenario.fail("Failed to get cookie with name "+ name);
+			Scenario.fail("Failed to get cookie with name " + name);
 		return cookie;
 	}
 
@@ -164,10 +163,8 @@ public class Browser {
 			wait.until(driver -> String.valueOf(jsExecutor.executeScript("return document.readyState"))
 					.equals("complete"));
 		} catch (TimeoutException e) {
-			Scenario.fail("Timeout occurred during wait for page to load");
+			Scenario.fail("Timeout reached while waiting for page to load");
 		}
-		
-		
 	}
 
 	private String getDefaultChromeDriver() {

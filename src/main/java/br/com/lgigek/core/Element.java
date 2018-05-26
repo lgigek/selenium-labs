@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -141,7 +142,7 @@ public class Element {
 			WebDriverWait wait = new WebDriverWait(driver, timeout);
 			wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
 			return true;
-		} catch (Exception e) {
+		} catch (TimeoutException e) {
 			logger.warn("Timeout reached while waiting for element {} to be present", elementLocator);
 			return false;
 		}
@@ -155,7 +156,7 @@ public class Element {
 			WebDriverWait wait = new WebDriverWait(driver, timeout);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
 			return true;
-		} catch (Exception e) {
+		} catch (TimeoutException e) {
 			logger.warn("Timeout reached while waiting for element {} to be visible", elementLocator);
 			return false;
 		}
@@ -169,7 +170,7 @@ public class Element {
 			WebDriverWait wait = new WebDriverWait(driver, timeout);
 			wait.until(ExpectedConditions.invisibilityOfElementLocated(elementLocator));
 			return true;
-		} catch (Exception e) {
+		} catch (TimeoutException e) {
 			logger.warn("Timeout reached while waiting for element {} to be not visible", elementLocator);
 			return false;
 		}

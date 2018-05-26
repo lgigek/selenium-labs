@@ -39,7 +39,6 @@ public class BrowserTest {
 
 	@After
 	public void tearDown() {
-		Whitebox.setInternalState(browser, WebDriver.class, spyWebDriver);
 		browser.closeWindow();
 	}
 
