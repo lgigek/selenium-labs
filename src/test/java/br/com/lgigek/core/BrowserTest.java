@@ -12,7 +12,6 @@ import static org.mockito.Mockito.when;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,7 +21,6 @@ import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebDriver.Window;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.powermock.reflect.Whitebox;
 
 public class BrowserTest {
@@ -238,12 +236,17 @@ public class BrowserTest {
 
 	@Test
 	public void waitForPageLoad_shouldWaitUnitPageIsLoaded() {
-		WebDriverWait mockWait = mock(WebDriverWait.class);
-//		when(new WebDriverWait(spyWebDriver,1)).thenReturn(mockWait);
-		doReturn(mockWait).when(new WebDriverWait(spyWebDriver,1));
-		
-		browser.waitForPageLoad(1);
-		verify(mockWait).until(Mockito.any());
+		doReturn("complete").when(((JavascriptExecutor) spyWebDriver)).executeScript("return document.readyState");
 
+		browser.waitForPageLoad(1);
+		verify((JavascriptExecutor) spyWebDriver).executeScript("return document.readyState");
 	}
+
+	@Test(expected = RuntimeException.class)
+	public void waitForPageLoad_shouldFailIfPageDoesNotLoad() {
+		doReturn("incomplete").when(((JavascriptExecutor) spyWebDriver)).executeScript("return document.readyState");
+
+		browser.waitForPageLoad(1);
+	}
+
 }

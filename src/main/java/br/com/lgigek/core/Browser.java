@@ -8,10 +8,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import br.com.lgigek.scenario.Scenario;
@@ -159,9 +159,15 @@ public class Browser {
 
 	public void waitForPageLoad(int timeout) {
 		logger.info("Waiting for page to load");
-		WebDriverWait wait = new WebDriverWait(driver, timeout);
-		wait.until(driver -> String.valueOf(((JavascriptExecutor) driver).executeScript("return document.readyState"))
-				.equals("complete"));
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, timeout);
+			wait.until(driver -> String.valueOf(jsExecutor.executeScript("return document.readyState"))
+					.equals("complete"));
+		} catch (TimeoutException e) {
+			Scenario.fail("Timeout occurred during wait for page to load");
+		}
+		
+		
 	}
 
 	private String getDefaultChromeDriver() {
