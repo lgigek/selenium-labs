@@ -30,7 +30,7 @@ public class BrowserTest {
 
 	@Before
 	public void setUp() {
-		browser = Browser.createInstance(BrowserType.CHROME, null, null);
+		browser = Browser.createChromeInstance(BrowserType.CHROME, null, null);
 		spyWebDriver = spy(browser.getDriver());
 
 		Whitebox.setInternalState(browser, WebDriver.class, spyWebDriver);

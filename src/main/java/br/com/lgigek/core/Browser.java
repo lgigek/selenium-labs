@@ -1,7 +1,5 @@
 package br.com.lgigek.core;
 
-import java.util.ArrayList;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,15 +23,15 @@ public class Browser {
 
 	private static final Logger logger = LogManager.getLogger(Browser.class);
 
-	public static Browser createInstance(BrowserType browserType, ArrayList<String> browserOptions, String driverPath) {
+	public static Browser createChromeInstance(BrowserType browserType, ChromeOptions chromeOptions, String driverPath) {
 		if (instance != null)
 			instance.closeWindow();
-		instance = new Browser(browserType, browserOptions, driverPath);
+		instance = new Browser(browserType, chromeOptions, driverPath);
 
 		return instance;
 	}
 
-	private Browser(BrowserType browserType, ArrayList<String> browserOptions, String driverPath) {
+	private Browser(BrowserType browserType, ChromeOptions chromeOptions, String driverPath) {
 		this.browserName = browserType.toString().toLowerCase();
 		logger.info("Starting browser {}", browserName);
 		if (browserType.equals(BrowserType.CHROME)) {
@@ -42,15 +40,12 @@ public class Browser {
 				driverPath = getDefaultChromeDriver();
 
 			System.setProperty("webdriver.chrome.driver", driverPath);
-			ChromeOptions chromeOptions = new ChromeOptions();
-
-			if (browserOptions != null) {
-				browserOptions.stream().forEach(option -> {
-					chromeOptions.addArguments(option);
-				});
+			if (chromeOptions == null) {
+				driver = new ChromeDriver();
+			} else {
+				driver = new ChromeDriver(chromeOptions);
 			}
 
-			driver = new ChromeDriver(chromeOptions);
 		} else {
 			throw new NotImplementedException("Implemented only for chromedriver");
 		}

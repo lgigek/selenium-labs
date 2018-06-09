@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import br.com.lgigek.core.Browser;
 import br.com.lgigek.core.BrowserType;
@@ -22,9 +23,14 @@ public class PagesRunner {
 	
 	@BeforeClass
 	public static void setUp() {
-		ArrayList<String> browserOptions = new ArrayList<String>();
-		browserOptions.add("--start-maximized");
-		browser = Browser.createInstance(BrowserType.CHROME, browserOptions, null);
+		ArrayList<String> arguments = new ArrayList<String>();
+		ChromeOptions chromeOptions = new ChromeOptions();
+		
+		arguments.add("-headless");
+		arguments.add("-window-size=1300,1000");
+		chromeOptions.addArguments(arguments);
+		
+		browser = Browser.createChromeInstance(BrowserType.CHROME, chromeOptions, null);
 	}
 
 	@AfterClass
