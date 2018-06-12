@@ -34,7 +34,7 @@ public class EvidenceHandler {
 		logger.trace("Setting evidence folder path");
 		stepNumber = 1;
 
-		folderPath = System.getProperty("user.dir") + "/target/evidences/" + browser.getBrowserName() + "/";
+		folderPath = System.getProperty("user.dir") + "/target/evidences/" + browser.getBrowserType() + "/";
 		for (String tag : scenarioTags) {
 			folderPath += tag.replace("@", "") + "-";
 		}

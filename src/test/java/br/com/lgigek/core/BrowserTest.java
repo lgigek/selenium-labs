@@ -30,7 +30,7 @@ public class BrowserTest {
 
 	@Before
 	public void setUp() {
-		browser = Browser.createChromeInstance(BrowserType.CHROME, null, null);
+		browser = Browser.createChromeInstance(null, null);
 		spyWebDriver = spy(browser.getDriver());
 
 		Whitebox.setInternalState(browser, WebDriver.class, spyWebDriver);
@@ -43,8 +43,8 @@ public class BrowserTest {
 	}
 
 	@Test
-	public void getBrowserName_shouldReturnBrowserName() {
-		assertEquals("chrome", browser.getBrowserName());
+	public void getBrowserType_ReturnBrowserName() {
+		assertEquals(BrowserType.CHROME, browser.getBrowserType());
 	}
 
 	@Test

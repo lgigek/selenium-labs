@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import br.com.lgigek.core.Browser;
-import br.com.lgigek.core.BrowserType;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
@@ -25,12 +24,12 @@ public class PagesRunner {
 	public static void setUp() {
 		ArrayList<String> arguments = new ArrayList<String>();
 		ChromeOptions chromeOptions = new ChromeOptions();
-		
+
 		arguments.add("-headless");
 		arguments.add("-window-size=1300,1000");
 		chromeOptions.addArguments(arguments);
-		
-		browser = Browser.createChromeInstance(BrowserType.CHROME, chromeOptions, null);
+
+		browser = Browser.createChromeInstance(chromeOptions, null);
 	}
 
 	@AfterClass
