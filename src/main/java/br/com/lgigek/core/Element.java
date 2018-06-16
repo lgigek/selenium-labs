@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,16 +20,30 @@ public class Element {
 
 	private static final Logger logger = LogManager.getLogger(Element.class);
 
+	/**
+	 * Create a new element.
+	 * 
+	 * @param locator
+	 *            Element locator.
+	 */
 	public Element(By locator) {
 		elementLocator = locator;
 		Browser browser = Browser.getInstance();
 		driver = browser.getDriver();
 	}
 
+	/**
+	 * Get the element locator.
+	 * 
+	 * @return The element locator.
+	 */
 	public By getElementLocator() {
 		return elementLocator;
 	}
-	
+
+	/**
+	 * On inputs or text areas, clear the value. Do nothing on other elements.
+	 */
 	public void clearValue() {
 		logger.info("Clearing {} value", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -36,6 +51,9 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Click on current element.
+	 */
 	public void click() {
 		logger.info("Clicking on {}", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -43,6 +61,9 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Click on current element by using JavaScript.
+	 */
 	public void jsExecutorClick() {
 		logger.info("Clicking with jsExecutor on {}", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -50,6 +71,14 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Get the value of the given attribute of current element.
+	 * 
+	 * @param name
+	 *            Attribute name.
+	 * @return <code>null</code> if the current element does not have the attribute;
+	 *         or attribute value if the current element have the attribute
+	 */
 	public String getAttribute(String name) {
 		logger.info("Getting attribute {} of {}", name, elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -64,6 +93,11 @@ public class Element {
 		return null;
 	}
 
+	/**
+	 * Returns the text of current element.
+	 * 
+	 * @return The text of current element.
+	 */
 	public String getText() {
 		logger.info("Getting text of {}", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -72,6 +106,12 @@ public class Element {
 		return null;
 	}
 
+	/**
+	 * Type string on the element.
+	 * 
+	 * @param value
+	 *            String to be typed.
+	 */
 	public void type(String value) {
 		logger.info("Typing on {}", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -79,6 +119,25 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Type keys on the element.
+	 * 
+	 * @param value
+	 *            keys to be typed.
+	 */
+	public void type(Keys value) {
+		logger.info("Typing on {}", elementLocator);
+		if (verifyIfElementIsPresent()) {
+			driver.findElement(elementLocator).sendKeys(value);
+		}
+	}
+
+	/**
+	 * Verify if the element is present.
+	 * 
+	 * @return <code>true</code> if element is present; <code>false</code> if
+	 *         element is not present.
+	 */
 	public Boolean isPresent() {
 		logger.info("Verifying if {} is present", elementLocator);
 		try {
@@ -91,6 +150,12 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Verify if the element is displayed.
+	 * 
+	 * @return <code>true</code> if element is displayed; <code>false</code> if
+	 *         element is not displayed.
+	 */
 	public Boolean isDisplayed() {
 		logger.info("Verifying if {} is displayed", elementLocator);
 		if (verifyIfElementIsPresent()) {
@@ -104,6 +169,12 @@ public class Element {
 		return false;
 	}
 
+	/**
+	 * Verify if the element is enabled.
+	 * 
+	 * @return <code>true</code> if element is enabled; <code>false</code> if
+	 *         element is not enabled.
+	 */
 	public Boolean isEnabled() {
 		logger.info("Verifying if {} is enabled", elementLocator);
 		if (verifyIfElementIsPresent())
@@ -116,6 +187,12 @@ public class Element {
 		return false;
 	}
 
+	/**
+	 * Verify if the element is selected.
+	 * 
+	 * @return <code>true</code> if element is selected; <code>false</code> if
+	 *         element is not selected.
+	 */
 	public Boolean isSelected() {
 		logger.info("Verifying if {} is selected", elementLocator);
 		if (verifyIfElementIsPresent())
@@ -128,12 +205,23 @@ public class Element {
 		return false;
 	}
 
+	/**
+	 * Submit the current form.
+	 */
 	public void submit() {
 		logger.info("Submitting {}", elementLocator);
 		if (verifyIfElementIsPresent())
 			driver.findElement(elementLocator).submit();
 	}
 
+	/**
+	 * Wait until the current element to be present.
+	 * 
+	 * @param timeout
+	 *            Maximum time to wait.
+	 * @return <code>true</code> if element is present before timeout.
+	 *         <code>false</code> if element is not present before timeout.
+	 */
 	public Boolean waitForElementToBePresent(int timeout) {
 		if (timeout == 0)
 			timeout = 1;
@@ -148,6 +236,14 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Wait until the current element to be visible.
+	 * 
+	 * @param timeout
+	 *            Maximum time to wait.
+	 * @return <code>true</code> if element is visible before timeout.
+	 *         <code>false</code> if element is not visible before timeout.
+	 */
 	public Boolean waitForElementToBeVisible(int timeout) {
 		if (timeout == 0)
 			timeout = 1;
@@ -161,7 +257,15 @@ public class Element {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Wait until the current element to be not visible.
+	 * 
+	 * @param timeout
+	 *            Maximum time to wait.
+	 * @return <code>true</code> if element is not visible before timeout.
+	 *         <code>false</code> if element is visible before timeout.
+	 */
 	public Boolean waitForElementToBeNotVisible(int timeout) {
 		if (timeout == 0)
 			timeout = 1;
@@ -176,6 +280,14 @@ public class Element {
 		}
 	}
 
+	/**
+	 * Wait until the current element to be present.
+	 * 
+	 * @param timeout
+	 *            Maximum time to wait.
+	 * @return <code>true</code> if element is present before timeout. Fails if the
+	 *         element is not present before timeout.
+	 */
 	private Boolean verifyIfElementIsPresent() {
 
 		try {
