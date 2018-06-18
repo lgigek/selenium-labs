@@ -1,4 +1,4 @@
-package br.com.lgigek.core;
+package br.com.lgigek.thrall.core;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import br.com.lgigek.scenario.Scenario;
+import br.com.lgigek.thrall.scenario.Scenario;
 
 public class Browser {
 

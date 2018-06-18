@@ -23,6 +23,10 @@ import org.openqa.selenium.WebDriver.Window;
 import org.openqa.selenium.WebElement;
 import org.powermock.reflect.Whitebox;
 
+import br.com.lgigek.thrall.core.Browser;
+import br.com.lgigek.thrall.core.BrowserType;
+import br.com.lgigek.thrall.core.Element;
+
 public class BrowserTest {
 
 	private Browser browser;

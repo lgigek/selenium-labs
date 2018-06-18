@@ -1,4 +1,4 @@
-package br.com.lgigek.scenario;
+package br.com.lgigek.thrall.scenario;
 
 import java.util.ArrayList;
 import java.util.List;

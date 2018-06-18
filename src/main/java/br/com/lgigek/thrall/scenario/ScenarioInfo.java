@@ -1,4 +1,4 @@
-package br.com.lgigek.scenario;
+package br.com.lgigek.thrall.scenario;
 
 public class ScenarioInfo {
 
