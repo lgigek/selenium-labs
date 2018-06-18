@@ -20,6 +20,7 @@ import org.openqa.selenium.WebDriver.Navigation;
 import org.openqa.selenium.WebDriver.Options;
 import org.openqa.selenium.WebDriver.TargetLocator;
 import org.openqa.selenium.WebDriver.Window;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.WebElement;
 import org.powermock.reflect.Whitebox;
 
@@ -34,7 +35,9 @@ public class BrowserTest {
 
 	@Before
 	public void setUp() {
-		browser = Browser.createChromeInstance(null, null);
+		ChromeOptions chromeOptions = new ChromeOptions();
+		chromeOptions.addArguments("--headless");
+		browser = Browser.createChromeInstance(chromeOptions, null);
 		spyWebDriver = spy(browser.getDriver());
 
 		Whitebox.setInternalState(browser, WebDriver.class, spyWebDriver);
