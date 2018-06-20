@@ -14,8 +14,8 @@
 		</Console>
 
 		<RollingFile name="FullLog"
-			fileName="${log-path}/log/functional-test-framework.log"
-			filePattern="${log-path}/$${date:yyyy-MM}/log/functional-test-framework-%d{MM-dd-yyyy}-%i.log.gz">
+			fileName="${log-path}/log/thrall.log"
+			filePattern="${log-path}/$${date:yyyy-MM}/log/thrall-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${patternLayout}</Pattern>
 			</PatternLayout>
@@ -26,8 +26,8 @@
 		</RollingFile>
 		
 		<RollingFile name="ErrorLog"
-			fileName="${log-path}/log/functional-test-framework-error.log"
-			filePattern="${log-path}/$${date:yyyy-MM}/log/functional-test-framework-%d{MM-dd-yyyy}-%i.log.gz">
+			fileName="${log-path}/log/thrall-error.log"
+			filePattern="${log-path}/$${date:yyyy-MM}/log/thrall-error-%d{MM-dd-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>${patternLayout}</Pattern>
 			</PatternLayout>
