@@ -1,22 +1,24 @@
-# Selenium labs
+# thrall
+Thrall is a testing framework that uses [Selenium WebDriver](https://www.seleniumhq.org/projects/webdriver/). 
 
-To run tests in a browser
+The current possible browsers are Chrome and Firefox.
 
-`mvn test -Dtest=RunnerClassOfYourBrowser`
+#### Motivation 
+Thrall encapsulates part of Selenium classes, so that creating test scripts becomes easier. 
 
-Current browsers: 
- - Chrome `mvn test -Dtest=ChromeRunner`
- - ChromeIncognito `mvn test -Dtest=ChromeIncognitoRunner`
+Also, Thrall provides an easy way to capture screenshots and provides some features to manage the test scenario. 
 
+## Usage
+Unfortunately, Thrall is not in [Maven Central](https://mvnrepository.com/repos/central) yet. So, is necessary to clone the project, using the command: 
 
-To run tests with Cucumber tags run:
+    git clone https://github.com/lgigek/thrall
+Then, is necessary to have the `.jar` file from Thrall in local Maven repository. You can get it from command:
 
-`mvn test -Dtest=RunnerClassOfYourBrowser -Dcucumber.options="--tags @yourTag"`
+    mvn clean install
+After that, it is possible to use Thrall as a dependency on a project, adding the following code in the project's `pom.xml`:
 
-
-To run tests in diffrent browsers run: 
-
-`mvn test -Dtest=RunnerClassOfYourFirstBrowser; mvn test -Dtest=RunnerClassOfYourSecondBrowser`
-
-Evidences are taken after a scenario fails or calling `EvidenceHandler.getInstance().takeEvidence("EvidenceName");` during test script.
-Evidences are generated at /target/evidences/[browser-name]/[scenario-tags]/[executiontime]
+    <dependency>
+        <groupId>br.com.lgigek</groupId>
+        <artifactId>thrall</artifactId>
+        <version>1.0.0</version>
+    </dependency>
