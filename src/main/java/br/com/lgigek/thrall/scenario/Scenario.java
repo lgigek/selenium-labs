@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class Scenario {
 
 	private static final Logger logger = LogManager.getLogger(Scenario.class);
-	private static List<ScenarioInfo> infoList;
+	private static List<ScenarioInfo> infoList = new ArrayList<>();
 
 	public static void fail(String message) {
 		logger.error(message);
