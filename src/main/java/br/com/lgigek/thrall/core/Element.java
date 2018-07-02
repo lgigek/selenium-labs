@@ -16,7 +16,7 @@ public class Element {
 
 	WebDriver driver;
 	private By elementLocator;
-	private JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+	private JavascriptExecutor jsExecutor; 
 
 	private static final Logger logger = LogManager.getLogger(Element.class);
 
@@ -30,6 +30,7 @@ public class Element {
 		elementLocator = locator;
 		Browser browser = Browser.getInstance();
 		driver = browser.getDriver();
+		jsExecutor = (JavascriptExecutor) driver;
 	}
 
 	/**
