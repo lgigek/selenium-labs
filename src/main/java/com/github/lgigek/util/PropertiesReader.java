@@ -1,4 +1,4 @@
-package br.com.lgigek.thrall.util;
+package com.github.lgigek.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;

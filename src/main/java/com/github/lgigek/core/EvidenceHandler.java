@@ -1,4 +1,4 @@
-package br.com.lgigek.thrall.core;
+package com.github.lgigek.core;
 
 import java.io.File;
 import java.io.IOException;

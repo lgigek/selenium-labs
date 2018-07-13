@@ -1,4 +1,4 @@
-package br.com.lgigek.core;
+package com.github.lgigek.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,9 +24,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.WebElement;
 import org.powermock.reflect.Whitebox;
 
-import br.com.lgigek.thrall.core.Browser;
-import br.com.lgigek.thrall.core.BrowserType;
-import br.com.lgigek.thrall.core.Element;
+import com.github.lgigek.core.Browser;
+import com.github.lgigek.core.BrowserType;
+import com.github.lgigek.core.Element;
 
 public class BrowserTest {
 

@@ -1,4 +1,4 @@
-package br.com.lgigek.thrall.core;
+package com.github.lgigek.core;
 
 public enum BrowserType {
 	CHROME, FIREFOX

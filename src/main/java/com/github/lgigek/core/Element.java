@@ -1,4 +1,4 @@
-package br.com.lgigek.thrall.core;
+package com.github.lgigek.core;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import br.com.lgigek.thrall.scenario.Scenario;
+import com.github.lgigek.scenario.Scenario;
 
 public class Element {
 
