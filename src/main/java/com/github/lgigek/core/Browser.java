@@ -8,8 +8,13 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.lgigek.scenario.Scenario;
@@ -29,13 +34,10 @@ public class Browser {
      * Creates an instance of Browser class with Chrome browser. By creating an
      * instance, a browser is started. If there is an another instance created, the
      * old one is closed and creates a new one.
-     * 
-     * @param chromeOptions
-     *            Options for ChromeDriver. If null, create a Driver without
-     *            options.
-     * @param driverPath
-     *            Driver file path. If null, get the default path
-     *            (/src/test/resources/drivers).
+     *
+     * @param chromeOptions Options for ChromeDriver. If null, create a Driver without
+     *                      options.
+     * @param driverPath    Driver file path. If null, uses <a href="https://github.com/bonigarcia/webdrivermanager">WebDriverManager</a>.
      * @return The created instance.
      */
     public static Browser createChromeInstance(ChromeOptions chromeOptions, String driverPath) {
@@ -51,12 +53,9 @@ public class Browser {
      * Creates an instance of Browser class with Firefox browser. By creating an
      * instance, a browser is started. If there is an another instance created, the
      * old one is closed and creates a new one.
-     * 
-     * @param firefoxOptions
-     *            Options for GeckoDriver. If null, create a Driver without options.
-     * @param driverPath
-     *            Driver file path. If null, get the default path
-     *            (/src/test/resources/drivers).
+     *
+     * @param firefoxOptions Options for GeckoDriver. If null, create a Driver without options.
+     * @param driverPath     Driver file path. If null, uses <a href="https://github.com/bonigarcia/webdrivermanager">WebDriverManager</a>.
      * @return The created instance.
      */
     public static Browser createFirefoxInstance(FirefoxOptions firefoxOptions, String driverPath) {
@@ -65,6 +64,60 @@ public class Browser {
         browserType = BrowserType.FIREFOX;
 
         instance = new Browser(firefoxOptions, driverPath);
+        return instance;
+    }
+
+    /**
+     * Creates an instance of Browser class with Opera browser. By creating an
+     * instance, a browser is started. If there is an another instance created, the
+     * old one is closed and creates a new one.
+     *
+     * @param operaOptions Options for OperaDriver. If null, create a Driver without options.
+     * @param driverPath   Driver file path. If null, uses <a href="https://github.com/bonigarcia/webdrivermanager">WebDriverManager</a>.
+     * @return The created instance.
+     */
+    public static Browser createOperaInstance(OperaOptions operaOptions, String driverPath) {
+        if (instance != null)
+            instance.closeWindow();
+        browserType = BrowserType.OPERA;
+
+        instance = new Browser(operaOptions, driverPath);
+        return instance;
+    }
+
+    /**
+     * Creates an instance of Browser class with Internet Explorer browser. By creating an
+     * instance, a browser is started. If there is an another instance created, the
+     * old one is closed and creates a new one.
+     *
+     * @param ieOptions  Options for IeDriver. If null, create a Driver without options.
+     * @param driverPath Driver file path. If null, uses <a href="https://github.com/bonigarcia/webdrivermanager">WebDriverManager</a>.
+     * @return The created instance.
+     */
+    public static Browser createIeInstance(InternetExplorerOptions ieOptions, String driverPath) {
+        if (instance != null)
+            instance.closeWindow();
+        browserType = BrowserType.IE;
+
+        instance = new Browser(ieOptions, driverPath);
+        return instance;
+    }
+
+    /**
+     * Creates an instance of Browser class with Edge browser. By creating an
+     * instance, a browser is started. If there is an another instance created, the
+     * old one is closed and creates a new one.
+     *
+     * @param edgeOptions Options for EdgeDriver. If null, create a Driver without options.
+     * @param driverPath  Driver file path. If null, uses <a href="https://github.com/bonigarcia/webdrivermanager">WebDriverManager</a>.
+     * @return The created instance.
+     */
+    public static Browser createEdgeInstance(EdgeOptions edgeOptions, String driverPath) {
+        if (instance != null)
+            instance.closeWindow();
+        browserType = BrowserType.EDGE;
+
+        instance = new Browser(edgeOptions, driverPath);
         return instance;
     }
 
@@ -107,6 +160,64 @@ public class Browser {
         }
     }
 
+    private Browser(OperaOptions operaOptions, String driverPath) {
+        logger.info("Starting browser {}", browserType.toString().toLowerCase());
+
+        if (driverPath == null)
+            WebDriverManager.operadriver().setup();
+        else
+            System.setProperty("webdriver.opera.driver", driverPath);
+
+        try {
+            if (operaOptions == null) {
+                driver = new OperaDriver();
+            } else {
+                driver = new OperaDriver(operaOptions);
+            }
+        } catch (Exception e) {
+            Scenario.fail("It was not possible to open OperaDriver. Error: " + e);
+        }
+    }
+
+    private Browser(InternetExplorerOptions ieOptions, String driverPath) {
+        logger.info("Starting browser {}", browserType.toString().toLowerCase());
+
+        if (driverPath == null)
+            WebDriverManager.iedriver().setup();
+        else
+            System.setProperty("webdriver.ie.driver", driverPath);
+
+        try {
+            if (ieOptions == null) {
+                driver = new InternetExplorerDriver();
+            } else {
+                driver = new InternetExplorerDriver(ieOptions);
+            }
+        } catch (Exception e) {
+            Scenario.fail("It was not possible to open IeDriver. Error: " + e);
+        }
+    }
+
+    private Browser(EdgeOptions edgeOptions, String driverPath) {
+        logger.info("Starting browser {}", browserType.toString().toLowerCase());
+
+        if (driverPath == null)
+            WebDriverManager.edgedriver().setup();
+        else
+            System.setProperty("webdriver.edge.driver", driverPath);
+
+        try {
+            if (edgeOptions == null) {
+                driver = new InternetExplorerDriver();
+            } else {
+                driver = new InternetExplorerDriver(edgeOptions);
+            }
+        } catch (Exception e) {
+            Scenario.fail("It was not possible to open Edge. Error: " + e);
+        }
+    }
+
+
     /**
      * @return The instance that already have been created.
      */
@@ -137,9 +248,8 @@ public class Browser {
 
     /**
      * Use the current tab to navigate do an URL.
-     * 
-     * @param url
-     *            URL to be navigated.
+     *
+     * @param url URL to be navigated.
      */
     public void navigate(String url) {
         logger.info("Navigating to url {}", url);
@@ -188,7 +298,7 @@ public class Browser {
 
     /**
      * Get the title from current page.
-     * 
+     *
      * @return Title from current page.
      */
     public String getTabTitle() {
@@ -198,7 +308,7 @@ public class Browser {
 
     /**
      * Get the URL from current tab.
-     * 
+     *
      * @return URL from current tab.
      */
     public String getTabUrl() {
@@ -208,9 +318,8 @@ public class Browser {
 
     /**
      * Get a cookie based on its name.
-     * 
-     * @param name
-     *            Name of cookie.
+     *
+     * @param name Name of cookie.
      * @return Cookie with name according to parameter.
      */
     public Cookie getCookieByName(String name) {
@@ -223,11 +332,10 @@ public class Browser {
 
     /**
      * Verify if a cookie exists and return <code>true</code> if it exists.
-     * 
-     * @param name
-     *            Name of cookie.
+     *
+     * @param name Name of cookie.
      * @return <code>true</code> if cookie exists; <code>false</code> if cookie does
-     *         not.
+     * not.
      */
     public Boolean verifyIfCookieExists(String name) {
         try {
@@ -250,11 +358,9 @@ public class Browser {
 
     /**
      * Set and LocalStorage item.
-     * 
-     * @param name
-     *            Name of LocalStorage item
-     * @param value
-     *            Value of LocalStorage item.
+     *
+     * @param name  Name of LocalStorage item
+     * @param value Value of LocalStorage item.
      */
     public void setLocalstorageItem(String name, String value) {
         logger.info("Setting item {} with value {} in localstorage", name, value);
@@ -271,9 +377,8 @@ public class Browser {
 
     /**
      * Focus a frame by its {@link Element}
-     * 
-     * @param element
-     *            Frame to be focused.
+     *
+     * @param element Frame to be focused.
      */
     public void focusFrame(Element element) {
         logger.info("Focusing frame {}", element.getElementLocator());
@@ -290,9 +395,8 @@ public class Browser {
 
     /**
      * Wait until the page finish loading.
-     * 
-     * @param timeout
-     *            Maximum time for wait.
+     *
+     * @param timeout Maximum time for wait.
      */
     public void waitForPageLoad(int timeout) {
         logger.info("Waiting for page to load");

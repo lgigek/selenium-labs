@@ -1,5 +1,5 @@
 package com.github.lgigek.core;
 
 public enum BrowserType {
-	CHROME, FIREFOX
+	CHROME, FIREFOX, OPERA, IE, EDGE
 }
